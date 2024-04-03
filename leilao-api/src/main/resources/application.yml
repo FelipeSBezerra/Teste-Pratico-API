@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: "Teste Tecnico"
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/az
+    username: postgres
+    password: postgres
+
+  sql:
+    init:
+      mode: always
+
+  jpa:
+    hibernate:
+      ddl-auto: none
