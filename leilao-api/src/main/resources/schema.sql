@@ -15,7 +15,7 @@ CREATE TABLE empresa (
     bairro VARCHAR(64),
     cep VARCHAR(16),
     telefone VARCHAR(32),
-    email VARCHAR(256) NOT NULL,
+    email VARCHAR(254) NOT NULL,
     site VARCHAR(254),
     usuario VARCHAR(20) NOT NULL UNIQUE,
     senha VARCHAR(128),
