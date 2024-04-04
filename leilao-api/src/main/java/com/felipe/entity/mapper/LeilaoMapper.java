@@ -22,6 +22,7 @@ public class LeilaoMapper {
                 leilao.getDescricao(),
                 new EmpresaResponseDtoMin(leilao.getVendedor().getId(), leilao.getVendedor().getRazaoSocial()),
                 leilao.getInicioPrevisto(),
+                leilao.getValorTotal(),
                 leilao.getCreatedAt(),
                 leilao.getUpdatedAt()
         );

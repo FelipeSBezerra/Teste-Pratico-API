@@ -12,6 +12,7 @@ public record LeilaoResponseDto(
         String descricao,
         EmpresaResponseDtoMin vendedor,
         Instant inicioPrevisto,
+        Double valorTotal,
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
         Instant createdAt,
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
