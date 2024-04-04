@@ -28,6 +28,26 @@ public class EmpresaMapper {
         );
     }
 
+    public Empresa toEmpresaFromResponseDto(EmpresaResponseDto responseDto) {
+        return Empresa.builder()
+                .id(responseDto.id())
+                .razaoSocial(responseDto.razaoSocial())
+                .cnpj(responseDto.cnpj())
+                .logradouro(responseDto.logradouro())
+                .numero(responseDto.numero())
+                .complemento(responseDto.complemento())
+                .bairro(responseDto.bairro())
+                .cep(responseDto.cep())
+                .telefone(responseDto.telefone())
+                .email(responseDto.email())
+                .site(responseDto.site())
+                .usuario(responseDto.usuario())
+                .senha(responseDto.senha())
+                .createdAt(responseDto.createdAt())
+                .updatedAt(responseDto.updatedAt())
+                .build();
+    }
+
     public Empresa toEmpresa(EmpresaRequestDto requestDto) {
         return Empresa.builder()
                 .razaoSocial(requestDto.razaoSocial())

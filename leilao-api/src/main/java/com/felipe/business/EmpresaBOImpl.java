@@ -22,7 +22,6 @@ public class EmpresaBOImpl implements EmpresaBO{
 
     private final EmpresaRepository empresaRepository;
     private final EmpresaMapper empresaMapper;
-
     @Override
     public EmpresaResponseDto buscarPorId(Integer id) {
         return empresaMapper.toResponseDto(this._buscarPorId(id));
@@ -54,7 +53,8 @@ public class EmpresaBOImpl implements EmpresaBO{
 
     @Override
     public void deletar(Integer id) {
-        _buscarPorId(id);
+        Empresa empresa = this._buscarPorId(id);
+        _verificarIntegridadeAntesExclusao(empresa);
         empresaRepository.deleteById(id);
     }
 
@@ -80,5 +80,11 @@ public class EmpresaBOImpl implements EmpresaBO{
         empresaAtualizada.setCreatedAt(empresaSalva.getCreatedAt());
         empresaAtualizada.setUpdatedAt(Instant.now());
         return empresaAtualizada;
+    }
+
+    private void _verificarIntegridadeAntesExclusao(Empresa empresa) {
+        if (!empresa.getLeiloes().isEmpty()) {
+            throw new DataIntegrityViolationException("A Empresa possui Leilões e não pode ser excluída.");
+        }
     }
 }
