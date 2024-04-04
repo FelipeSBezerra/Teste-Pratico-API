@@ -1,5 +1,6 @@
 package com.felipe.entity.dto;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.br.CNPJ;
@@ -16,7 +17,7 @@ public record EmpresaRequestDto(
         @Size(max=64) String bairro,
         @Size(max=16) String cep,
         @Size(max=32) String telefone,
-        @NotNull @Size(max=254)String email,
+        @NotNull @Size(max=254) @Email String email,
         @Size(max=254) String site,
         @NotNull @Size(max=20) String usuario,
         @Size(max=128) String senha
