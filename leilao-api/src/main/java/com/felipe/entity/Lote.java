@@ -10,41 +10,45 @@ import lombok.NoArgsConstructor;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
-@Table(name = "leilao")
+@Table(name = "lote")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@SequenceGenerator(name = "leilao_id_seq", sequenceName = "leilao_id_seq", allocationSize = 1)
-public class Leilao implements Serializable {
+@SequenceGenerator(name = "lote_id_seq", sequenceName = "lote_id_seq", allocationSize = 1)
+public class Lote implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "leilao_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "lote_id_seq")
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "codigo")
-    private Integer codigo;
+    @Column(name = "numero_lote")
+    private Integer numeroLote;
 
     @NotNull
     @Column(name = "descricao")
     private String descricao;
 
     @NotNull
-    @ManyToOne
-    @JoinColumn(name = "vendedor")
-    private Empresa vendedor;
+    @Column(name = "quantidade")
+    private Float quantidade;
+
+    @Column(name = "valor_inicial")
+    private Double valorInicial;
+
+    @Column(name = "unidade")
+    private String unidade;
 
     @NotNull
-    @Column(name = "inicio_previsto")
-    private Instant inicioPrevisto;
+    @ManyToOne
+    @JoinColumn(name = "leilao")
+    private Leilao leilao;
 
     @NotNull
     @Column(name = "created_at")
@@ -53,7 +57,4 @@ public class Leilao implements Serializable {
     @NotNull
     @Column(name = "updated_at")
     private Instant updatedAt;
-
-    @OneToMany(mappedBy = "leilao")
-    private List<Lote> lotes = new ArrayList<>();
 }

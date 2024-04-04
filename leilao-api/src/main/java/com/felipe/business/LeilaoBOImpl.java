@@ -1,5 +1,6 @@
 package com.felipe.business;
 
+import com.felipe.business.exception.DataIntegrityViolationException;
 import com.felipe.business.exception.ResourceNotFoundException;
 import com.felipe.entity.Leilao;
 import com.felipe.entity.dto.EmpresaResponseDto;
@@ -53,7 +54,7 @@ public class LeilaoBOImpl implements LeilaoBO{
 
     @Override
     public void deletar(Integer id) {
-        _buscarPorId(id);
+        this._verificarIntegridadeAntesExclusao(this._buscarPorId(id));
         leilaoRepository.deleteById(id);
     }
 
@@ -69,5 +70,11 @@ public class LeilaoBOImpl implements LeilaoBO{
         leilaoAtualizada.setCreatedAt(leilaoSalvo.getCreatedAt());
         leilaoAtualizada.setUpdatedAt(Instant.now());
         return leilaoAtualizada;
+    }
+
+    private void _verificarIntegridadeAntesExclusao(Leilao leilao) {
+        if (!leilao.getLotes().isEmpty()) {
+            throw new DataIntegrityViolationException("O Leilão possui Lotes e não pode ser excluído.");
+        }
     }
 }

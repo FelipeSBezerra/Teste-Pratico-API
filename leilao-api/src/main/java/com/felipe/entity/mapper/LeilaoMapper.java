@@ -27,6 +27,18 @@ public class LeilaoMapper {
         );
     }
 
+    public Leilao toLeilaoFromResponseDto(LeilaoResponseDto responseDto, EmpresaResponseDto vendedor) {
+        return Leilao.builder()
+                .id(responseDto.id())
+                .codigo(responseDto.codigo())
+                .descricao(responseDto.descricao())
+                .vendedor(empresaMapper.toEmpresaFromResponseDto(vendedor))
+                .inicioPrevisto(responseDto.inicioPrevisto())
+                .createdAt(responseDto.createdAt())
+                .updatedAt(responseDto.updatedAt())
+                .build();
+    }
+
     public Leilao toLeilao(LeilaoRequestDto requestDto, EmpresaResponseDto vendedor) {
         return Leilao.builder()
                 .codigo(requestDto.codigo())
