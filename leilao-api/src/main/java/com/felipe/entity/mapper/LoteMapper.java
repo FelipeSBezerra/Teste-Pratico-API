@@ -1,8 +1,7 @@
 package com.felipe.entity.mapper;
 
+import com.felipe.entity.Leilao;
 import com.felipe.entity.Lote;
-import com.felipe.entity.dto.EmpresaResponseDto;
-import com.felipe.entity.dto.LeilaoResponseDto;
 import com.felipe.entity.dto.LoteRequestDto;
 import com.felipe.entity.dto.LoteResponseDto;
 import lombok.AllArgsConstructor;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class LoteMapper {
 
-    private final LeilaoMapper leilaoMapper;
     public LoteResponseDto toResponseDto(Lote lote) {
         return new LoteResponseDto(
                 lote.getId(),
@@ -28,14 +26,14 @@ public class LoteMapper {
         );
     }
 
-    public Lote toLote(LoteRequestDto requestDto, LeilaoResponseDto leilao, EmpresaResponseDto empresa) {
+    public Lote toLote(LoteRequestDto requestDto, Leilao leilao) {
         return Lote.builder()
                 .numeroLote(requestDto.numeroLote())
                 .descricao(requestDto.descricao())
                 .quantidade(requestDto.quantidade())
                 .valorInicial(requestDto.valorInicial())
                 .unidade(requestDto.unidade())
-                .leilao(leilaoMapper.toLeilaoFromResponseDto(leilao, empresa))
+                .leilao(leilao)
                 .build();
     }
 }

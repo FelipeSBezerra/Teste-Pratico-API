@@ -1,19 +1,19 @@
 package com.felipe.entity.mapper;
 
+import com.felipe.entity.Empresa;
 import com.felipe.entity.Leilao;
-import com.felipe.entity.dto.EmpresaResponseDto;
 import com.felipe.entity.dto.EmpresaResponseDtoMin;
 import com.felipe.entity.dto.LeilaoRequestDto;
 import com.felipe.entity.dto.LeilaoResponseDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+
 
 @Component
 @AllArgsConstructor
 public class LeilaoMapper {
-
-    private final EmpresaMapper empresaMapper;
 
     public LeilaoResponseDto toResponseDto(Leilao leilao) {
         return new LeilaoResponseDto(
@@ -27,24 +27,14 @@ public class LeilaoMapper {
         );
     }
 
-    public Leilao toLeilaoFromResponseDto(LeilaoResponseDto responseDto, EmpresaResponseDto vendedor) {
-        return Leilao.builder()
-                .id(responseDto.id())
-                .codigo(responseDto.codigo())
-                .descricao(responseDto.descricao())
-                .vendedor(empresaMapper.toEmpresaFromResponseDto(vendedor))
-                .inicioPrevisto(responseDto.inicioPrevisto())
-                .createdAt(responseDto.createdAt())
-                .updatedAt(responseDto.updatedAt())
-                .build();
-    }
 
-    public Leilao toLeilao(LeilaoRequestDto requestDto, EmpresaResponseDto vendedor) {
+    public Leilao toLeilao(LeilaoRequestDto requestDto, Empresa vendedor) {
         return Leilao.builder()
                 .codigo(requestDto.codigo())
                 .descricao(requestDto.descricao())
-                .vendedor(empresaMapper.toEmpresaFromResponseDto(vendedor))
+                .vendedor(vendedor)
                 .inicioPrevisto(requestDto.inicioPrevisto())
+                .lotes(new ArrayList<>())
                 .build();
     }
 }

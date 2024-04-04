@@ -1,9 +1,8 @@
 package com.felipe.business;
 
 import com.felipe.business.exception.ResourceNotFoundException;
+import com.felipe.entity.Leilao;
 import com.felipe.entity.Lote;
-import com.felipe.entity.dto.EmpresaResponseDto;
-import com.felipe.entity.dto.LeilaoResponseDto;
 import com.felipe.entity.dto.LoteRequestDto;
 import com.felipe.entity.dto.LoteResponseDto;
 import com.felipe.entity.mapper.LoteMapper;
@@ -21,12 +20,11 @@ public class LoteBOImpl implements LoteBO{
 
     private final LoteRepository loteRepository;
     private final LoteMapper loteMapper;
-    private final EmpresaBO empresaBO;
     private final LeilaoBO leilaoBO;
 
     @Override
     public LoteResponseDto buscarPorId(Integer id) {
-        return loteMapper.toResponseDto(this._buscarPorId(id));
+        return loteMapper.toResponseDto(this.buscarPorIdRetornoLote(id));
     }
 
     @Override
@@ -45,7 +43,7 @@ public class LoteBOImpl implements LoteBO{
 
     @Override
     public LoteResponseDto atualizar(Integer id, LoteRequestDto requestDto) {
-        Lote loteSalvo= this._buscarPorId(id);
+        Lote loteSalvo= this.buscarPorIdRetornoLote(id);
         return loteMapper.toResponseDto(
                 loteRepository.save(this._atualizarDados(loteSalvo, requestDto))
         );
@@ -53,17 +51,17 @@ public class LoteBOImpl implements LoteBO{
 
     @Override
     public void deletar(Integer id) {
-        _buscarPorId(id);
+        buscarPorIdRetornoLote(id);
         loteRepository.deleteById(id);
     }
 
     private Lote _criarInstanciaLote(LoteRequestDto requestDto) {
-        LeilaoResponseDto leilao = leilaoBO.buscarPorId(requestDto.leilaoId());
-        EmpresaResponseDto empresa = empresaBO.buscarPorId(leilao.id());
-        return loteMapper.toLote(requestDto, leilao, empresa);
+        Leilao leilao = leilaoBO.buscarPorIdRetornoLeilao(requestDto.leilaoId());
+        return loteMapper.toLote(requestDto, leilao);
     }
 
-    private Lote _buscarPorId(Integer id) {
+    @Override
+    public Lote buscarPorIdRetornoLote(Integer id) {
         return loteRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(
                 String.format("Não há um Lote com o ID = %d na base de dados.", id)));
     }

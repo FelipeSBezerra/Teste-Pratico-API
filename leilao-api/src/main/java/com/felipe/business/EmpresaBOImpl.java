@@ -24,7 +24,7 @@ public class EmpresaBOImpl implements EmpresaBO{
     private final EmpresaMapper empresaMapper;
     @Override
     public EmpresaResponseDto buscarPorId(Integer id) {
-        return empresaMapper.toResponseDto(this._buscarPorId(id));
+        return empresaMapper.toResponseDto(this.buscarPorIdRetornoEmpresa(id));
     }
 
     @Override
@@ -44,7 +44,7 @@ public class EmpresaBOImpl implements EmpresaBO{
 
     @Override
     public EmpresaResponseDto atualizar(Integer id, EmpresaRequestDto requestDto) {
-        Empresa empresaSalva= this._buscarPorId(id);
+        Empresa empresaSalva= this.buscarPorIdRetornoEmpresa(id);
         this._validarCamposUnicos(id, requestDto);
         return empresaMapper.toResponseDto(
                 empresaRepository.save(this._atualizarDados(empresaSalva, requestDto))
@@ -53,12 +53,13 @@ public class EmpresaBOImpl implements EmpresaBO{
 
     @Override
     public void deletar(Integer id) {
-        Empresa empresa = this._buscarPorId(id);
+        Empresa empresa = this.buscarPorIdRetornoEmpresa(id);
         _verificarIntegridadeAntesExclusao(empresa);
         empresaRepository.deleteById(id);
     }
 
-    private Empresa _buscarPorId(Integer id) {
+    @Override
+    public Empresa buscarPorIdRetornoEmpresa(Integer id) {
         return empresaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(
                 String.format("Não há uma Empresa com o ID = %d na base de dados.", id)));
     }
@@ -77,6 +78,7 @@ public class EmpresaBOImpl implements EmpresaBO{
     private Empresa _atualizarDados(Empresa empresaSalva, EmpresaRequestDto requestDto) {
         Empresa empresaAtualizada = empresaMapper.toEmpresa(requestDto);
         empresaAtualizada.setId(empresaSalva.getId());
+        empresaAtualizada.setLeiloes(empresaSalva.getLeiloes());
         empresaAtualizada.setCreatedAt(empresaSalva.getCreatedAt());
         empresaAtualizada.setUpdatedAt(Instant.now());
         return empresaAtualizada;

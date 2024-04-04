@@ -2,8 +2,8 @@ package com.felipe.business;
 
 import com.felipe.business.exception.DataIntegrityViolationException;
 import com.felipe.business.exception.ResourceNotFoundException;
+import com.felipe.entity.Empresa;
 import com.felipe.entity.Leilao;
-import com.felipe.entity.dto.EmpresaResponseDto;
 import com.felipe.entity.dto.LeilaoRequestDto;
 import com.felipe.entity.dto.LeilaoResponseDto;
 import com.felipe.entity.mapper.LeilaoMapper;
@@ -25,7 +25,7 @@ public class LeilaoBOImpl implements LeilaoBO{
 
     @Override
     public LeilaoResponseDto buscarPorId(Integer id) {
-        return leilaoMapper.toResponseDto(this._buscarPorId(id));
+        return leilaoMapper.toResponseDto(this.buscarPorIdRetornoLeilao(id));
     }
 
     @Override
@@ -36,8 +36,8 @@ public class LeilaoBOImpl implements LeilaoBO{
 
     @Override
     public LeilaoResponseDto criar(LeilaoRequestDto requestDto) {
-        EmpresaResponseDto empresaResponseDto = empresaBO.buscarPorId(requestDto.vendedorId());
-        Leilao novoLeilao = leilaoMapper.toLeilao(requestDto, empresaResponseDto);
+        Empresa empresa = empresaBO.buscarPorIdRetornoEmpresa(requestDto.vendedorId());
+        Leilao novoLeilao = leilaoMapper.toLeilao(requestDto, empresa);
         novoLeilao.setCreatedAt(Instant.now());
         novoLeilao.setUpdatedAt(Instant.now());
         return leilaoMapper.toResponseDto(leilaoRepository.save(novoLeilao));
@@ -45,28 +45,30 @@ public class LeilaoBOImpl implements LeilaoBO{
 
     @Override
     public LeilaoResponseDto atualizar(Integer id, LeilaoRequestDto requestDto) {
-        EmpresaResponseDto empresaResponseDto = empresaBO.buscarPorId(requestDto.vendedorId());
-        Leilao leilaoSalvo= this._buscarPorId(id);
+        Empresa empresa = empresaBO.buscarPorIdRetornoEmpresa(requestDto.vendedorId());
+        Leilao leilaoSalvo= this.buscarPorIdRetornoLeilao(id);
         return leilaoMapper.toResponseDto(
-                leilaoRepository.save(this._atualizarDados(leilaoSalvo, requestDto, empresaResponseDto))
+                leilaoRepository.save(this._atualizarDados(leilaoSalvo, requestDto, empresa))
         );
     }
 
     @Override
     public void deletar(Integer id) {
-        this._verificarIntegridadeAntesExclusao(this._buscarPorId(id));
+        this._verificarIntegridadeAntesExclusao(this.buscarPorIdRetornoLeilao(id));
         leilaoRepository.deleteById(id);
     }
 
-    private Leilao _buscarPorId(Integer id) {
+    @Override
+    public Leilao buscarPorIdRetornoLeilao(Integer id) {
         return leilaoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(
                 String.format("Não há uma Leilão com o ID = %d na base de dados.", id)));
     }
 
 
-    private Leilao _atualizarDados(Leilao leilaoSalvo, LeilaoRequestDto requestDto, EmpresaResponseDto empresaResponseDto) {
-        Leilao leilaoAtualizada = leilaoMapper.toLeilao(requestDto, empresaResponseDto);
+    private Leilao _atualizarDados(Leilao leilaoSalvo, LeilaoRequestDto requestDto, Empresa empresa) {
+        Leilao leilaoAtualizada = leilaoMapper.toLeilao(requestDto, empresa);
         leilaoAtualizada.setId(leilaoSalvo.getId());
+        leilaoAtualizada.setLotes(leilaoSalvo.getLotes());
         leilaoAtualizada.setCreatedAt(leilaoSalvo.getCreatedAt());
         leilaoAtualizada.setUpdatedAt(Instant.now());
         return leilaoAtualizada;
