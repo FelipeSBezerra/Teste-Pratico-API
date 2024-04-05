@@ -3,6 +3,7 @@ package com.felipe.service;
 import com.felipe.business.LeilaoBO;
 import com.felipe.entity.dto.LeilaoRequestDto;
 import com.felipe.entity.dto.LeilaoResponseDto;
+import com.felipe.repository.specification.LeilaoSpecification;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +26,8 @@ public class LeilaoService {
     }
 
     @GetMapping
-    public ResponseEntity<List<LeilaoResponseDto>> buscarTodos() {
-        return ResponseEntity.ok(leilaoBO.buscarTodos());
+    public ResponseEntity<List<LeilaoResponseDto>> buscarTodos(LeilaoSpecification specification) {
+        return ResponseEntity.ok(leilaoBO.buscarTodos(specification));
     }
 
     @PostMapping

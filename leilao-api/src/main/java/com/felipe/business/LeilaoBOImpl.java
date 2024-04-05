@@ -8,6 +8,7 @@ import com.felipe.entity.dto.LeilaoRequestDto;
 import com.felipe.entity.dto.LeilaoResponseDto;
 import com.felipe.entity.mapper.LeilaoMapper;
 import com.felipe.repository.LeilaoRepository;
+import com.felipe.repository.specification.LeilaoSpecification;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -29,8 +30,8 @@ public class LeilaoBOImpl implements LeilaoBO{
     }
 
     @Override
-    public List<LeilaoResponseDto> buscarTodos() {
-        return leilaoRepository.findAll()
+    public List<LeilaoResponseDto> buscarTodos(LeilaoSpecification specification) {
+        return leilaoRepository.findAll(specification)
                 .stream().map(leilaoMapper::toResponseDto).collect(Collectors.toList());
     }
 

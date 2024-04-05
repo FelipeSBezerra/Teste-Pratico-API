@@ -7,6 +7,7 @@ import com.felipe.entity.dto.EmpresaRequestDto;
 import com.felipe.entity.dto.EmpresaResponseDto;
 import com.felipe.entity.mapper.EmpresaMapper;
 import com.felipe.repository.EmpresaRepository;
+import com.felipe.repository.specification.EmpresaSpecification;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -28,8 +29,8 @@ public class EmpresaBOImpl implements EmpresaBO{
     }
 
     @Override
-    public List<EmpresaResponseDto> buscarTodos() {
-        return empresaRepository.findAll()
+    public List<EmpresaResponseDto> buscarTodos(EmpresaSpecification specification) {
+        return empresaRepository.findAll(specification)
                 .stream().map(empresaMapper::toResponseDto).collect(Collectors.toList());
     }
 

@@ -3,6 +3,7 @@ package com.felipe.service;
 import com.felipe.business.EmpresaBO;
 import com.felipe.entity.dto.EmpresaRequestDto;
 import com.felipe.entity.dto.EmpresaResponseDto;
+import com.felipe.repository.specification.EmpresaSpecification;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +26,8 @@ public class EmpresaService {
     }
 
     @GetMapping
-    public ResponseEntity<List<EmpresaResponseDto>> buscarTodos() {
-        return ResponseEntity.ok(empresaBO.buscarTodos());
+    public ResponseEntity<List<EmpresaResponseDto>> buscarTodos(EmpresaSpecification specification) {
+        return ResponseEntity.ok(empresaBO.buscarTodos(specification));
     }
 
     @PostMapping
