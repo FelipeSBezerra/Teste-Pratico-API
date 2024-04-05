@@ -57,6 +57,9 @@ public class Leilao implements Serializable {
     @OneToMany(mappedBy = "leilao")
     private List<Lote> lotes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "leilao")
+    private List<Comprador> compradores = new ArrayList<>();
+
     public Double getValorTotal() {
         double valorTotal = 0.0;
         for (Lote lote : lotes) {

@@ -75,8 +75,8 @@ public class LeilaoBOImpl implements LeilaoBO{
     }
 
     private void _verificarIntegridadeAntesExclusao(Leilao leilao) {
-        if (!leilao.getLotes().isEmpty()) {
-            throw new DataIntegrityViolationException("O Leilão possui Lotes e não pode ser excluído.");
+        if (!leilao.getLotes().isEmpty() || !leilao.getCompradores().isEmpty()) {
+            throw new DataIntegrityViolationException("O Leilão não pode ser excluído, pois possui Lotes e/ou Compradores.");
         }
     }
 }

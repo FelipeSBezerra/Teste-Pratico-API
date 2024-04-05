@@ -85,8 +85,8 @@ public class EmpresaBOImpl implements EmpresaBO{
     }
 
     private void _verificarIntegridadeAntesExclusao(Empresa empresa) {
-        if (!empresa.getLeiloes().isEmpty()) {
-            throw new DataIntegrityViolationException("A Empresa possui Leilões e não pode ser excluída.");
+        if (!empresa.getLeiloes().isEmpty() || !empresa.getCompradores().isEmpty()) {
+            throw new DataIntegrityViolationException("A Empresa não pode ser excluída, pois possui Leilões e/ou é Compradora em um ou mais Leilões.");
         }
     }
 }

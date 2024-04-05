@@ -80,4 +80,7 @@ public class Empresa implements Serializable {
 
     @OneToMany(mappedBy = "vendedor")
     private List<Leilao> leiloes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "empresa")
+    private List<Comprador> compradores = new ArrayList<>();
 }
