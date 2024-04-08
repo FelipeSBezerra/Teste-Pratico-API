@@ -12,26 +12,26 @@ INSERT INTO empresa (razao_social, cnpj, logradouro, numero, complemento, bairro
 
 INSERT INTO leilao (codigo, descricao, vendedor, inicio_previsto, created_at, updated_at) VALUES
 (1, 'Leilão A', 1, '2024-04-10 12:00:00', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-(2, 'Leilão B', 2, '2024-04-15 12:45:00', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(2, 'Leilão B', 1, '2024-04-15 12:45:00', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 (3, 'Leilão C', 3, '2024-04-20 10:00:00', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-(4, 'Leilão D', 4, '2024-04-25 11:30:00', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(4, 'Leilão D', 3, '2024-04-25 11:30:00', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 (5, 'Leilão E', 5, '2024-04-30 09:00:00', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-(6, 'Leilão F', 6, '2024-05-06 09:50:00', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(6, 'Leilão F', 5, '2024-05-06 09:50:00', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 (7, 'Leilão G', 7, '2024-05-07 12:00:00', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-(8, 'Leilão H', 8, '2024-05-12 10:45:00', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(8, 'Leilão H', 7, '2024-05-12 10:45:00', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 (9, 'Leilão I', 9, '2024-05-15 12:00:00', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-(10, 'Leilão J', 10, '2024-05-25 11:00:00', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+(10, 'Leilão J', 9, '2024-05-25 11:00:00', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 INSERT INTO comprador (empresa, leilao) VALUES
-(10, 1),
+(9, 1),
 (9, 2),
-(8, 3),
+(7, 3),
 (7, 4),
-(6, 5),
+(5, 5),
 (5, 6),
-(4, 7),
+(3, 7),
 (3, 8),
-(2, 9),
+(1, 9),
 (1, 10);
 
 INSERT INTO lote (numero_lote, descricao, quantidade, valor_inicial, unidade, leilao, created_at, updated_at) VALUES
